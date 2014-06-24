@@ -1,0 +1,49 @@
+<% if ! defined?(@project.users).nil? %>
+
+<%= javascript_include_tag 'jquery.textcomplete.js', :plugin => 'redmine_user_mentions' %>
+<%= stylesheet_link_tag 'auto_complete.css', :plugin => 'redmine_user_mentions' %>
+<% regex_find = '/\B'+Setting.plugin_redmine_user_mentions['trigger']+'(\w*)$/i'%>
+
+
+<%users= @project.users.delete_if{|u| (u.type != 'User' || u.mail.empty?)}%>
+<%users_regex=users.collect{|u| "user\:#{u.login}"}.join('|')%>
+
+<% regex_highlight = '/\B('+users_regex+')/g' %>
+<script>
+
+
+if (typeof CKEDITOR_BASEPATH === 'undefined') {
+
+
+ function UserMention(){
+  $('.wiki-edit').textcomplete([
+    {
+      mentions: <%=  users.collect{|u| "#{u.lastname} #{u.firstname} - <small>user:#{u.login}</small>".downcase}.to_json.html_safe %>,
+      match: <%=regex_find%>,
+      search: function(term, callback) {
+        callback($.map(this.mentions, function(mention) {
+          return mention.indexOf(term) === 0 ? mention : null;
+        }));
+      },
+      index: 1,
+      replace: function(mention) {
+        var parts = mention.split(' - ');
+        var name = parts[1].substring(parts[1].lastIndexOf("<small>")+7,parts[1].lastIndexOf("</small>"));
+
+         return name + ' ';
+      },
+      maxCount: 4
+    }
+   ]);
+  }
+
+ $('.wiki-edit').on('click', UserMention ); 
+ $(document).ajaxComplete(function(event, xhr, settings) { 
+	 $('.wiki-edit').trigger('click');
+  } );
+
+}
+
+</script>
+
+<% end %>
