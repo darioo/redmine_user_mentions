@@ -21,6 +21,11 @@ Clone the git repository:
 	git clone git@github.com:darioo/redmine_user_mentions.git
         Restart Redmine
        
+History
+========
+
+1.1.0 - Add support for mention all redmine users. It can be changed at Settiong of this plugin
+1.0.0 - First version
         
 Thanks
 ======
