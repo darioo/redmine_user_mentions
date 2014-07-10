@@ -5,7 +5,14 @@
 <% regex_find = '/\B'+Setting.plugin_redmine_user_mentions['trigger']+'(\w*)$/i'%>
 
 
-<%users= @project.users.delete_if{|u| (u.type != 'User' || u.mail.empty?)}%>
+<% #users= @project.users.delete_if{|u| (u.type != 'User' || u.mail.empty?)}%>
+
+<% if Setting.plugin_redmine_user_mentions['mention_from_all_users']
+     users= User.logged.status(1) 
+   else
+     users= @project.users.delete_if{|u| (u.type != 'User' || u.mail.empty?)}
+   end
+%>
 <%users_regex=users.collect{|u| "user\:#{u.login}"}.join('|')%>
 
 <% regex_highlight = '/\B('+users_regex+')/g' %>

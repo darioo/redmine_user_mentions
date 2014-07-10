@@ -4,3 +4,12 @@
   <%= select_tag('settings[trigger]',
                  options_for_select(['@',':','~','!','#','%'],settings['trigger'])) %>
 </p>
+<p>
+<label style="margin-left: 0px; width: auto; font-weight: normal;">
+    <%=check_box_tag 'settings[mention_from_all_users]', true, settings['mention_from_all_users'] %>
+    <%= l(:settings_mention_from_all_users) %>
+  </label>
+</p>
+
+
+

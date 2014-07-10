@@ -11,5 +11,5 @@ Redmine::Plugin.register :redmine_user_mentions do
   version '1.0.0'
   url 'https://github.com/darioo/redmine_user_mentions'
   author_url 'https://github.com/darioo/'
-  settings :default => {'trigger' => '@'}, :partial => 'settings/mention'
+  settings :default => {'trigger' => '@', 'mention_from_all_users' => 0}, :partial => 'settings/mention'
 end
