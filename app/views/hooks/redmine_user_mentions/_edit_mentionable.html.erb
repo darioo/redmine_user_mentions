@@ -2,7 +2,7 @@
 
 <%= javascript_include_tag 'jquery.textcomplete.js', :plugin => 'redmine_user_mentions' %>
 <%= stylesheet_link_tag 'auto_complete.css', :plugin => 'redmine_user_mentions' %>
-<% regex_find = '/\B'+Setting.plugin_redmine_user_mentions['trigger']+'(\w*)$/i'%>
+<% regex_find = '/\B'+Setting.plugin_redmine_user_mentions['trigger']+'(\S*)$/i'%>
 
 
 <% #users= @project.users.delete_if{|u| (u.type != 'User' || u.mail.empty?)}%>
