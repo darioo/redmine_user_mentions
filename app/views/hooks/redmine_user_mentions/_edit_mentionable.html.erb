@@ -25,11 +25,12 @@ if (typeof CKEDITOR_BASEPATH === 'undefined') {
  function UserMention(){
   $('.wiki-edit').textcomplete([
     {
-      mentions: <%=  users.collect{|u| "#{u.lastname} #{u.firstname} - <small>user:#{u.login}</small>".downcase}.to_json.html_safe %>,
+      mentions: <%=  users.collect{|u| "#{u.lastname} #{u.firstname} - <small>user:#{u.login}</small>".mb_chars.downcase.to_s}.to_json.html_safe %>,
       match: <%=regex_find%>,
       search: function(term, callback) {
         callback($.map(this.mentions, function(mention) {
-          return mention.indexOf(term) === 0 ? mention : null;
+       	  m = decodeURIComponent(mention);
+          return m.indexOf(term) === 0 ? m : null;
         }));
       },
       index: 1,
